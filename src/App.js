@@ -1,36 +1,39 @@
-import {useState, useEffect} from 'react'
-import './App.css';
+import React, { useEffect, useState } from 'react'
+
+import './App.css'
 
 const App = () => {
-  const [message,setMessage] = useState('서버 접속 중...')
+  const [message, setMessage] = useState('서버 접속 중...')
 
   const fetchData = async () => {
-    try{
+    try {
+      //const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080/api/message'
       const apiUrl = process.env.REACT_APP_API_URL
 
       const response = await fetch(apiUrl)
 
-      if(!response.ok){
+      if (!response.ok) {
         throw new Error('Network response was not ok')
       }
+
       const data = await response.json()
 
-      setMessage(data.status)
-    } catch (error){
+      setMessage(data.status);
+    } catch (error) {
       console.error('Error fetching data: ', error)
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchData()
   }, [])
 
   return (
     <div className="App">
-      <h1>취미 생활 데이터</h1>
+      <h1>Backend로부터 받은 메시지</h1>
       <p>{message}</p>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
